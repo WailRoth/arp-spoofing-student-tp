@@ -1,0 +1,48 @@
+# J'ai monté trois conteneurs sur un réseau commun pour rejouer le scénario MITM complet.
+services:
+  server:
+    # J'ai construit l'image du serveur HTTP depuis son Dockerfile simple.
+    build: ./server
+    container_name: arp_server
+    networks:
+      arpnet:
+        ipv4_address: 172.28.0.10
+
+  victim:
+    # J'ai fait pareil pour la victime qui envoie des requêtes JSON.
+    build: ./victim
+    container_name: arp_victim
+    depends_on:
+      - server
+    environment:
+      SERVER_URL: http://172.28.0.10/
+      CLIENT_ID: victim1
+    networks:
+      arpnet:
+        ipv4_address: 172.28.0.20
+
+  attacker:
+    # J'ai donné un conteneur dédié à l'attaquant avec les capacités réseau nécessaires.
+    build: ./attacker
+    container_name: arp_attacker
+    depends_on:
+      - server
+      - victim
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+      arpnet:
+        ipv4_address: 172.28.0.30
+    environment:
+      VICTIM_IP: 172.28.0.20
+      SERVER_IP: 172.28.0.10
+      ATTACK_INTERFACE: eth0
+
+networks:
+  arpnet:
+    # J'ai défini un bridge avec des IP fixes pour simplifier la démo.
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
