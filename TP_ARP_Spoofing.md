@@ -1,16 +1,12 @@
-# TP : Découverte de l'ARP Spoofing
+> [!warning] Attention, Le tp doit être fait sous VDN! Prenez l'image VDN de Docker
 
-# Attention! Le tp doit être fait sous VDN! Prenez l'image VDN de Docker
-
-## Clonnez le REPO: 
-git@github.com:WailRoth/arp-spoofing-student-tp.git
+## Clonez le REPO sous VDN: 
+https://github.com/WailRoth/arp-spoofing-student-tp
 
 ## Objectif pédagogique
 
 Ce TP vise à vous faire découvrir le fonctionnement de l'ARP spoofing (ou ARP poisoning), une attaque réseau permettant d'intercepter des communications entre deux machines. Vous allez manipuler un environnement contrôlé pour comprendre comment cette attaque fonctionne et comment la détecter.
-
 ## Nettoyage
-
 Pour arrêter proprement la démo :
 
 ```bash
@@ -241,4 +237,3 @@ Analysez le fichier `attacker/attacker.py` et répondez :
 2. **Question** : Pourquoi l'attaquant doit-il maintenir l'empoisonnement en boucle (voir la boucle while) ?
 
 3. **Question** : Testez manuellement l'attaque : que se passe-t-il si vous commentez temporairement les lignes `sendp()` dans la boucle `poison_arp()` ?
-
